@@ -1,5 +1,5 @@
 from flask import Blueprint, flash, session, request, render_template, url_for, redirect
-from flask_login import current_user, login_user
+from flask_login import current_user, login_user, logout_user
 
 from extensions import db, login_manager
 from users.models import User
@@ -101,6 +101,12 @@ def validate_otp():
             flash('Invalid OTP. Please try again.', 'error')
 
     return render_template('validate_otp.html')
+
+
+@user_bp.route('/logout', methods=['GET', 'POST'])
+def logout():
+    logout_user()
+    return redirect(url_for('main.home'))
 
 
 @login_manager.user_loader

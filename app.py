@@ -13,9 +13,11 @@ def create_app():
     # PostgreSQL
     app.config['SECRET_KEY'] = 'your_secret_key'  # Change this to a secure random key for production
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+    app.config['LOGIN_VIEW'] = 'user.login'
 
     db.init_app(app)
     login_manager.init_app(app)
+    login_manager.login_view = 'user.login'
 
     with app.app_context():
         db.create_all()
