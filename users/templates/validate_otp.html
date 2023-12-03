@@ -1,0 +1,18 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Validate OTP</title>
+</head>
+<body>
+    <h2>Enter One-Time Password (OTP)</h2>
+    <form method="POST" action="{{ url_for('user.validate_otp') }}">
+        <label for="otp">One-Time Password (OTP):</label>
+        <input type="text" name="otp" required><br>
+
+        <button type="submit">Submit OTP</button>
+    </form>
+</body>
+</html>

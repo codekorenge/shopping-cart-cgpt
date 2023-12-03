@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Products</title>
+</head>
+<body>
+    <h2>Products</h2>
+    <p>Total Price: ${{ total_price }}</p>
+    <ul>
+        {% for product in products %}
+            <li>
+                {{ product.name }} - ${{ product.price }}
+                <form method="POST" action="{{ url_for('products.add_to_cart', product_id=product.id) }}" style="display: inline;">
+                    <button type="submit">Add to Cart</button>
+                </form>
+            </li>
+        {% endfor %}
+    </ul>
+    <!-- Add more content and styling as needed -->
+</body>
+</html>
