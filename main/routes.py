@@ -98,9 +98,30 @@ def remove(product_id):
 
 @main_bp.route('/checkout')
 def checkout():
-    # Add logic here for checkout process
-    # For example, you might want to create an order, process payment, etc.
-    return render_template('checkout.html')
+    if current_user.is_authenticated:
+        # Check if the product is already in the user's cart
+        cart_item = []
+
+        # To display items in cart.
+        cart_list = CartItem.query.filter_by(user_id=current_user.id).all()
+        for item in cart_list:
+            product_info = get_product_by_id(item.product_id)
+            view = ProductView()
+            view.name = product_info['name']
+            view.quantity = item.quantity
+            view.price = product_info['price']
+            view.total = item.quantity * product_info['price']
+            cart_item.append(view)
+
+        # Calculate the total and pass it to the template
+        total_price = calculate_total_price(current_user.id)
+
+        return render_template('checkout.html', total_price=total_price, cart=cart_item)
+
+    products = get_all_products()
+    total_amount = 0
+    # total_amount = calculate_total_amount(products)
+    return render_template('home.html', products=products, total_amount=total_amount)
 
 
 def calculate_total_amount(products):

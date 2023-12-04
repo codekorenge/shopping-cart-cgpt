@@ -16,36 +16,8 @@
 {% endblock %}
 
 {% block content %}
-    <h1>Product List</h1>
-    <table>
-        <thead>
-            <tr>
-                <th>Action</th>
-                <th>Product Name</th>
-                <th>Unit Price</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for product in products %}
-                <tr>
-                    <td>
-                        <a href="{{ url_for('main.add_to_cart', product_id=product.id) }}" class="btn btn-add">[ADD]</a>
-                        <a href="{{ url_for('main.remove', product_id=product.id) }}" class="btn btn-rem">[REM]</a>
-                    </td>
-                    <td>{{ product.name }}</td>
-                    <td>${{ product.price }}</td>
-                </tr>
-            {% endfor %}
-        </tbody>
-        <tfoot>
-            <tr>
-                <td colspan="4" style="text-align: right;">Total:</td>
-                <td>${{ total_price }}</td>
-            </tr>
-        </tfoot>
-    </table>
-
     <h1>Order List</h1>
+
    <table>
         <thead>
             <tr>
@@ -73,6 +45,4 @@
         </tfoot>
     </table>
 
-
-    <a href="{{ url_for('main.checkout') }}" class="btn btn-checkout">Checkout</a>
 {% endblock %}
