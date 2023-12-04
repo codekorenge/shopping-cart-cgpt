@@ -68,6 +68,8 @@ def login():
 
         else:
             flash('Login failed. Please check your username and password.', 'error')
+    else:
+        logout_user()
 
     return render_template('login.html')
 

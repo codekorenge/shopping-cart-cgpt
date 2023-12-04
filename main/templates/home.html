@@ -1,23 +1,77 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Welcome to Our E-Commerce Platform</title>
-</head>
-<body>
-    <h2>Welcome to Our E-Commerce Platform!</h2>
-    <p>Explore our amazing products and start åçhopping now.</p>
+{% extends 'base.html' %}
 
-    {% if current_user.is_authenticated %}
-        <h2>Welcome, {{ current_user.username }}!</h2>
-        <form method="post" action="{{ url_for('user.logout') }}">
-            <button type="submit">Logout</button>
-        </form>
-        <a href="{{ url_for('products.view_products') }}">View Products</a>
-    {% else %}
-        <p>Please log in to access this page.</p>
-    {% endif %}
+{% block header %}
+    <div class="user-info">
+        {% if current_user.is_authenticated %}
+            <p>Welcome {{ current_user.username }}!</p>
+        {% else %}
+            <!-- Add login/register link or form if not authenticated -->
+        {% endif %}
+    </div>
+    <div class="logout-btn">
+        {% if current_user.is_authenticated %}
+            <a href="{{ url_for('user.logout') }}" class="btn btn-logout">Logout</a>
+        {% endif %}
+    </div>
+{% endblock %}
 
-</body>
-</html>
+{% block content %}
+    <h1>Product List</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Action</th>
+                <th>Product Name</th>
+                <th>Unit Price</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for product in products %}
+                <tr>
+                    <td>
+                        <a href="{{ url_for('main.add_to_cart', product_id=product.id) }}" class="btn btn-add">[ADD]</a>
+                        <a href="{{ url_for('main.remove', product_id=product.id) }}" class="btn btn-rem">[REM]</a>
+                    </td>
+                    <td>{{ product.name }}</td>
+                    <td>${{ product.price }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="4" style="text-align: right;">Total:</td>
+                <td>${{ total_price }}</td>
+            </tr>
+        </tfoot>
+    </table>
+
+   <table>
+        <thead>
+            <tr>
+                <th>Product</th>
+                <th>Price</th>
+                <th>Quantity</th>
+                <th>Total</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in cart %}
+                <tr>
+                    <td>{{ item.name }}</td>
+                    <td>$ {{ item.price }}</td>
+                    <td>$ {{ item.quantity }}</td>
+                    <td>$ {{ item.total }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="4" style="text-align: right;">Grand Total:</td>
+                <td>${{ total_price }}</td>
+            </tr>
+        </tfoot>
+    </table>
+
+
+    <a href="{{ url_for('main.checkout') }}" class="btn btn-checkout">Checkout</a>
+{% endblock %}
