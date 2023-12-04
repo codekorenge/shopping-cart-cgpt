@@ -24,6 +24,7 @@ main_bp = Blueprint('main',
 
 
 @main_bp.route('/')
+@login_required
 def home():
     products = get_all_products()
     total_amount = 0
